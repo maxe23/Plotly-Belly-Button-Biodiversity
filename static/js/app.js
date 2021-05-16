@@ -26,3 +26,7 @@ function buildPlots (id) {
         var idValues = sampleDict.otu_ids;
         var barLabels = idValues.slice(0, 10).reverse();
         var newLabels = [];
+        barLabels.forEach((label) => {
+            newLabels.push("OTU " + label);
+        });
+        var hovertext = sampleDict.otu_labels;
