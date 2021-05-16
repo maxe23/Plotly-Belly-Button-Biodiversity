@@ -57,4 +57,14 @@ function buildPlots (id) {
             }
         }
         Plotly.newPlot("bar", plot, layout1)
-
+        // Create bubble graph
+        var trace2 = {
+            x: idValues,
+            y: sampleValues,
+            mode: "markers",
+            marker: {
+                size: sampleValues,
+                color: idValues
+            },
+            text: hovertext
+        }
