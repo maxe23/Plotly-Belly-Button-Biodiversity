@@ -19,3 +19,10 @@ function getDemoInfo(id) {
 function buildPlots (id) {
     d3.json("static/js/data/samples.json"). then ((data) => {
         console.log(data)
+        // Filter the data to get the sample's OTU data
+        var filtData = data.samples;
+        var sampleDict = filtData.filter(item => item.id == id)[0];
+        var sampleValues = sampleDict.sample_values; 
+        var idValues = sampleDict.otu_ids;
+        var barLabels = idValues.slice(0, 10).reverse();
+        var newLabels = [];
