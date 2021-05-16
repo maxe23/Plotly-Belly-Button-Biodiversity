@@ -15,7 +15,7 @@ function getDemoInfo(id) {
     })
 }
 
-// Create fucntion to build plots 
+// build plots
 function buildPlots (id) {
     d3.json("static/js/data/samples.json"). then ((data) => {
         console.log(data)
