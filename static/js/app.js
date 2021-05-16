@@ -83,3 +83,11 @@ Plotly.newPlot("bubble", plot2, layout2)
 })
 }
 
+// Create function for initial data 
+function init() {
+    var drop = d3.select("#selDataset")
+
+    d3.json("static/js/data/samples.json"). then ((data) => {
+        data.names.forEach(function(name) {
+            drop.append("option").text(name).property("value", name)
+        })
