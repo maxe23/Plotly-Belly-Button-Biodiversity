@@ -91,3 +91,8 @@ function init() {
         data.names.forEach(function(name) {
             drop.append("option").text(name).property("value", name)
         })
+// Display the data 
+buildPlots(data.names[0])
+getDemoInfo(data.names[0])
+})
+}
