@@ -1,105 +1,85 @@
-// Create a function to grab Demo Info
-function getDemoInfo(id) {
-    d3.json("static/js/data/samples.json"). then ((data) => {
-        var metadata = data.metadata
-        console.log(metadata)
-
-        var result = metadata.filter(meta => meta.id.toString() === id) [0]
-
-        var demographicInfo = d3.select("#sample-metadata")
-        demographicInfo.html("")
-
-        Object.entries(result).forEach((key) => {
-            demographicInfo.append("h6").text(key[0].toUpperCase() + ":" + key[1] + "\n")
-        })
+function dropdownmenu() {
+    d3.json("data/samples.json").then(function (data) {
+      // console.log(data.names);
+      var selData = d3.select('#selDataset');
+      var dataNames = data.names;
+      dataNames.forEach((x) => {
+        selData.append('option').text(x).property('value', x);
+      })
+      charts(dataNames[0]);
+      metatable(dataNames[0]);
+  
     })
-}
+  }
+  function charts(newid) {
+  
+    d3.json(("data/samples.json").then(function (data) {
+      console.log(data.samples);
+  
+      filterdata = data.samples.filter(x => x.id === newid)
+      var sample_values =filterdata[0].sample_values;
+      var otu_ids = filterdata[0].otu_ids;
+      var otu_labels = filterdata[0].otu_labels;
 
-// build plots
-function buildPlots (id) {
-    d3.json("static/js/data/samples.json"). then ((data) => {
-        console.log(data)
-        // Filter the data to get the sample's OTU data
-        var filtData = data.samples;
-        var sampleDict = filtData.filter(item => item.id == id)[0];
-        var sampleValues = sampleDict.sample_values; 
-        var idValues = sampleDict.otu_ids;
-        var barLabels = idValues.slice(0, 10).reverse();
-        var newLabels = [];
-        barLabels.forEach((label) => {
-            newLabels.push("OTU " + label);
-        });
-        var hovertext = sampleDict.otu_labels;
-
-        // Create horizontal bar chart
-        var trace1 = {
-            x: sampleValues.slice(0,10).reverse(),
-            y: newLabels,
-            type: "bar",
-            orientation: "h",
-            marker: {
-                color: "blue"
-            },
-            text: hovertext.slice(0,10).reverse()
+      var trace1 = {
+        x: otu_ids.slice(0, 10).reverse(),
+        y: sample_values.slice(0, 10).reverse(),
+        type: "bar"
+      };
+  
+      var data1 = [trace1];
+  
+      var layout1 = {
+        title: "Top 10 OTUs Found",
+        xaxis: { title: "OTU" },
+        yaxis: { title: "OTU Sample Values" }
+      };
+  
+      Plotly.newPlot("bar", data1, layout1);
+  
+      var trace2 = {
+        x: otu_ids,
+        y: sample_values,
+        type: 'scatter',
+        mode: 'markers',
+        marker: {
+          color: otu_ids,
+          size: sample_values
         }
-        var plot = [trace1]
+      };
+  
+      var data2 = [trace2];
+  
+      var layout2 = {
+        title: 'Bubble Chart',
+        xaxis: { title: "OTU IDs" },
+        yaxis: { title: "OTU Sample Values" }
+      };
+  
+      Plotly.newPlot("bubble", data2, layout2);
+    });
+  
+  
+  }
+  function metatable(newid) {
+    d3.json(("data/samples.json").then(function (data) {
+      console.log(data.metadata);
 
-        var layout1 = {
-            title: "Top 10 OTUs",
-            yaxis: {
-                tickmode: "linear"
-            },
-            margin: {
-                l: 100,
-                r: 100,
-                t: 100,
-                b: 30
-            }
-        }
-        Plotly.newPlot("bar", plot, layout1)
-        // Create bubble graph
-        var trace2 = {
-            x: idValues,
-            y: sampleValues,
-            mode: "markers",
-            marker: {
-                size: sampleValues,
-                color: idValues
-            },
-            text: hovertext
-        }
-    }
-
-    var layout2 = {
-        xaxis:{title: "OTU ID"},
-        height: 600,
-        width: 1000
-    }
-
-    var plot2 = [trace2]
-
-Plotly.newPlot("bubble", plot2, layout2)
-    
-})
-}
-
-// Create function for initial data 
-function init() {
-    var drop = d3.select("#selDataset")
-
-    d3.json("static/js/data/samples.json"). then ((data) => {
-        data.names.forEach(function(name) {
-            drop.append("option").text(name).property("value", name)
-        })
-// Display the data 
-buildPlots(data.names[0])
-getDemoInfo(data.names[0])
-})
-}
-// Create fucntion for change of evnet
-function optionChanged(newSelection) {
-    buildPlots(newSelection)
-    getDemoInfo(newSelection)
-}
-
-init()
+      var samplemeta = d3.select('#sample-metadata')
+      samplemeta.html('')
+      var filterdata = data.metadata.filter(x => x.id == newid)
+      
+      Object.entries(filterdata[0]).forEach(([key, value]) => {
+        var row = samplemeta.append('tr')
+        row.append('td').html(key)
+        row.append('td').html(value)
+      })
+    })
+  }
+  
+  
+  function optionChanged(newid) {
+    charts(newid)
+    metatable(newid)
+  }
+  dropdownmenu()
