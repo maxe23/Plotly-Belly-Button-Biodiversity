@@ -39,3 +39,20 @@ function buildPlots (id) {
             orientation: "h",
             marker: {
                 color: "blue"
+            },
+            text: hovertext.slice(0,10).reverse()
+        }
+        var plot = [trace1]
+
+        var layout1 = {
+            title: "Top 10 OTUs",
+            yaxis: {
+                tickmode: "linear"
+            },
+            margin: {
+                l: 100,
+                r: 100,
+                t: 100,
+                b: 30
+            }
+        }
