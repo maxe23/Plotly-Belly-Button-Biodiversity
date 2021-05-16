@@ -30,3 +30,12 @@ function buildPlots (id) {
             newLabels.push("OTU " + label);
         });
         var hovertext = sampleDict.otu_labels;
+
+        // Create horizontal bar chart
+        var trace1 = {
+            x: sampleValues.slice(0,10).reverse(),
+            y: newLabels,
+            type: "bar",
+            orientation: "h",
+            marker: {
+                color: "blue"
