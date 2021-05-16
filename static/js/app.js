@@ -56,3 +56,5 @@ function buildPlots (id) {
                 b: 30
             }
         }
+        Plotly.newPlot("bar", plot, layout1)
+
