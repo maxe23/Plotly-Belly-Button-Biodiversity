@@ -68,3 +68,18 @@ function buildPlots (id) {
             },
             text: hovertext
         }
+    }
+
+    var layout2 = {
+        xaxis:{title: "OTU ID"},
+        height: 600,
+        width: 1000
+    }
+
+    var plot2 = [trace2]
+
+Plotly.newPlot("bubble", plot2, layout2)
+    
+})
+}
+
