@@ -96,3 +96,10 @@ buildPlots(data.names[0])
 getDemoInfo(data.names[0])
 })
 }
+// Create fucntion for change of evnet
+function optionChanged(newSelection) {
+    buildPlots(newSelection)
+    getDemoInfo(newSelection)
+}
+
+init()
